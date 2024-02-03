@@ -9,10 +9,13 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import com.consumers.socialmediademo.R
 import com.consumers.socialmediademo.commons.CONSTANTS
 import com.consumers.socialmediademo.databinding.ActivityCreateProfileBinding
 import com.google.android.material.snackbar.Snackbar
@@ -21,29 +24,29 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class CreateProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateProfileBinding
 
     @Inject
-    private lateinit var sharedPreferences: SharedPreferences
+    lateinit var sharedPreferences: SharedPreferences
 
     @Inject
-    private lateinit var auth: FirebaseAuth
+    lateinit var auth: FirebaseAuth
 
     @Inject
-    private lateinit var firestore: FirebaseFirestore
+    lateinit var firestore: FirebaseFirestore
 
     @Inject
-    private lateinit var storage: FirebaseStorage
+    lateinit var storage: FirebaseStorage
 
     private var isUserNameTaken = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCreateProfileBinding.inflate(layoutInflater)
-
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_create_profile)
         setUpClickListeners()
     }
 
@@ -210,11 +213,12 @@ class CreateProfileActivity : AppCompatActivity() {
                             )
                             snackbar.show()
                             val downloadUrl = storage.reference.child(auth.uid.toString())
-                                .child("profile_picture").downloadUrl.result
+                                .child("profile_picture").downloadUrl.addOnCompleteListener {
+                                    download ->
+                                    sharedPreferences.edit().putString("profile_url",download.result.toString()).apply()
 
-                            sharedPreferences.edit().putString("profile_url",downloadUrl.toString()).apply()
-
-                            Picasso.get().load(downloadUrl).into(binding.profileImage)
+                                    Picasso.get().load(download.result).into(binding.profileImage)
+                                }
                         }
                     }
             }

@@ -15,14 +15,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class LoginSignupFragment : Fragment() {
     @Inject
-    private lateinit var auth: FirebaseAuth
+    lateinit var auth: FirebaseAuth
 
     @Inject
-    private lateinit var sharedPreferences: SharedPreferences
+    lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var binding: FragmentLoginsingupBinding
     override fun onCreateView(
@@ -64,15 +66,22 @@ class LoginSignupFragment : Fragment() {
     private fun continueWithLoginFlow(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
             if (it.isSuccessful) {
-                loginFlowContinue(email, password)
+                loginFlowContinue(email, password, true)
             } else {
                 if (it.exception is FirebaseAuthInvalidCredentialsException) {
-                    val snackbar = Snackbar.make(
-                        binding.parentCLlogin,
-                        "Invalid Credentials",
-                        Snackbar.LENGTH_SHORT
-                    )
-                    snackbar.show()
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                loginFlowContinue(email, password, false)
+                            } else {
+                                val snackbar = Snackbar.make(
+                                    binding.parentCLlogin,
+                                    "Invalid Credentials",
+                                    Snackbar.LENGTH_SHORT
+                                )
+                                snackbar.show()
+                            }
+                        }
                     return@addOnCompleteListener
                 }
 
@@ -80,7 +89,7 @@ class LoginSignupFragment : Fragment() {
                     auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                loginFlowContinue(email, password)
+                                loginFlowContinue(email, password, true)
                             } else {
                                 val snackbar = Snackbar.make(
                                     binding.parentCLlogin,
@@ -95,8 +104,9 @@ class LoginSignupFragment : Fragment() {
         }
     }
 
-    private fun loginFlowContinue(email: String, password: String) {
-        Toast.makeText(requireContext(), "Login Success", Toast.LENGTH_SHORT).show()
+    private fun loginFlowContinue(email: String, password: String, isToastNeeded: Boolean) {
+        if (isToastNeeded)
+            Toast.makeText(requireContext(), "Login Success", Toast.LENGTH_SHORT).show()
         sharedPreferences.edit().putString("userLoggedIn", "true").apply()
         val userDetails = getUserDetailsMap(email, password)
         sharedPreferences.edit().putString("authDetails", userDetails).apply()

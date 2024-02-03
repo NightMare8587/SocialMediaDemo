@@ -9,13 +9,16 @@ import androidx.fragment.app.FragmentManager
 import com.consumers.socialmediademo.activities.CreateProfileActivity
 import com.consumers.socialmediademo.activities.HomeScreen
 import com.consumers.socialmediademo.fragments.LoginSignupFragment
+import com.google.firebase.FirebaseApp
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var fm: FragmentManager
 
     @Inject
-    private lateinit var sharedPreferences: SharedPreferences
+    lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
