@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "574251887485",
+    "project_id": "socialmediademo-badee",
+    "storage_bucket": "socialmediademo-badee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:574251887485:android:c61e387ce0d4a925d53a14",
+        "android_client_info": {
+          "package_name": "com.consumers.socialmediademo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTLnmezygGrT65j5Uhsc2cFoD40ORSBW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
