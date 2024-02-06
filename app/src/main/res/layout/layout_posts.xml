@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="28dp"
+    android:layout_marginTop="8dp"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parentCLposts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/postUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:text="XYZ Username"
+            app:layout_constraintStart_toStartOf="@id/parentCLposts"
+            app:layout_constraintTop_toTopOf="@id/parentCLposts" />
+
+        <TextView
+            android:id="@+id/followUnfollowTVposts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:paddingHorizontal="10dp"
+            android:text="Follow"
+            android:textColor="@color/follow_user"
+            app:layout_constraintStart_toEndOf="@id/postUserName"
+            app:layout_constraintTop_toTopOf="@id/postUserName" />
+
+        <TextView
+            android:id="@+id/datePosted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:text="1 Sec"
+            app:layout_constraintEnd_toEndOf="@id/parentCLposts"
+            app:layout_constraintTop_toTopOf="@id/followUnfollowTVposts" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/imageUserPost"
+            android:layout_width="250dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@id/parentCLposts"
+            app:layout_constraintStart_toStartOf="@id/parentCLposts"
+            app:layout_constraintTop_toBottomOf="@id/followUnfollowTVposts" />
+
+        <VideoView
+            android:id="@+id/videoUserPost"
+            android:layout_width="250dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/parentCLposts"
+            app:layout_constraintStart_toStartOf="@id/parentCLposts"
+            app:layout_constraintTop_toBottomOf="@id/followUnfollowTVposts" />
+
+        <TextView
+            android:id="@+id/textUserPosted"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/datePosted"
+            app:layout_constraintStart_toStartOf="@id/postUserName"
+            app:layout_constraintTop_toBottomOf="@id/imageUserPost" />
+
+        <LinearLayout
+            android:id="@+id/postActionsLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/parentCLposts"
+            app:layout_constraintEnd_toEndOf="@id/parentCLposts"
+            app:layout_constraintStart_toStartOf="@id/parentCLposts"
+            app:layout_constraintTop_toBottomOf="@id/textUserPosted">
+
+            <ImageButton
+                android:id="@+id/likeUnlikePostBTN"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/baseline_thumb_up_24" />
+
+            <ImageButton
+                android:id="@+id/commentPostBTN"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/baseline_chat_24"
+                app:tint="@color/notliked_post" />
+
+            <ImageButton
+                android:id="@+id/personalChatPostBTN"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/baseline_people_24" />
+
+            <ImageButton
+                android:id="@+id/reportPostBTN"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/baseline_report_24" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
